@@ -33,14 +33,14 @@ class SignController extends AbstractController
         try {
             $verifiedIdToken = $this->auth->verifyIdToken($idToken);
         } catch (\InvalidArgumentException $e) {
+            $res = new Response( json_encode(array( 'error' => $e->getMessage() )) );
             $res->setStatusCode(500);
-            $res =  new Response( json_encode(array( 'error' => $e->getMessage() )) );
             $res->headers->set('Content-Type','application/json');
             return $res;
 
         } catch (InvalidToken $e) {
+            $res = new Response( json_encode(array( 'error' => $e->getMessage() )) );
             $res->setStatusCode(500);
-            $res =  new Response( json_encode(array( 'error' => $e->getMessage() )) );
             $res->headers->set('Content-Type','application/json');
             return $res;
         }
@@ -51,6 +51,7 @@ class SignController extends AbstractController
 
         $json = json_encode(array( 'status' => $user ? true : false ));
         $res =  new Response($json);
+        $res->setStatusCode(200);
         $res->headers->set('Content-Type','application/json');
         return $res;
     }
