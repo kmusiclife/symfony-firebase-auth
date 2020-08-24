@@ -26,8 +26,6 @@ class SignController extends AbstractController
     public function verify(Request $request)
     {   
         $idToken = $request->headers->get('idToken');
-        $firebase_admin_path = file_get_contents($this->getParameter('kernel.project_dir').'/.firebase-admin.json');
-        $firebase_admin = json_decode($firebase_admin_path);
         
         // verify
         // https://firebase-php.readthedocs.io/en/latest/authentication.html#verify-a-firebase-id-token
@@ -35,10 +33,18 @@ class SignController extends AbstractController
         try {
             $verifiedIdToken = $this->auth->verifyIdToken($idToken);
         } catch (\InvalidArgumentException $e) {
-            echo 'The token could not be parsed: '.$e->getMessage();
+            $res->setStatusCode(500);
+            $res =  new Response( json_encode(array( 'error' => $e->getMessage() )) );
+            $res->headers->set('Content-Type','application/json');
+            return $res;
+
         } catch (InvalidToken $e) {
-            echo 'The token is invalid: '.$e->getMessage();
+            $res->setStatusCode(500);
+            $res =  new Response( json_encode(array( 'error' => $e->getMessage() )) );
+            $res->headers->set('Content-Type','application/json');
+            return $res;
         }
+
         $uid = $verifiedIdToken->getClaim('sub');
         $user = $this->auth->getUser($uid);
         $this->session->set('user', $user);
@@ -46,7 +52,6 @@ class SignController extends AbstractController
         $json = json_encode(array( 'status' => $user ? true : false ));
         $res =  new Response($json);
         $res->headers->set('Content-Type','application/json');
-
         return $res;
     }
     /**

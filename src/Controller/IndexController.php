@@ -21,7 +21,7 @@ class IndexController extends AbstractController
     public function Index()
     {
         $user = $this->session->get('user');
-        return $this->render('index/index.html.twig', []);
+        return $this->render('index/index.html.twig', [ 'user' => $user ]);
     }    
 
 }

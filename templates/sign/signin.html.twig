@@ -19,7 +19,11 @@
                 }).then(idToken => {
                     fetch("{{ url('verify') }}", { 'headers': { idToken: idToken } })
                         .then( response => { 
-                            location.href = "{{ url('index') }}"; 
+                            if( response.status == 200 ) {
+                                location.href = "{{ url('index') }}"; 
+                            } else {
+                                location.href = "{{ url('signin') }}";
+                            }
                         }
                     );
                 });
