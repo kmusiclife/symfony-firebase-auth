@@ -8,6 +8,7 @@ credentials.json
 /public/js/firebase-config.js
 /var/
 /vendor/
+
 ###< symfony/framework-bundle ###
 ###> friendsofphp/php-cs-fixer ###
 /.php_cs
