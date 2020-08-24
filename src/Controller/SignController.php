@@ -54,19 +54,14 @@ class SignController extends AbstractController
      */
     public function signin()
     {
-        return $this->render('sign/signin.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
+        return $this->render('sign/signin.html.twig', []);
     }
     /**
      * @Route("/signout", name="signout")
      */
     public function signout()
     {
-        $this->session->set('user', null);
-        return $this->render('sign/signout.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
+        return $this->render('sign/signout.html.twig', []);
     }
 
 }
