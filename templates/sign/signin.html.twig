@@ -41,8 +41,8 @@
             firebase.auth.PhoneAuthProvider.PROVIDER_ID
             */
         ],
-        tosUrl: '<your-tos-url>',
-        privacyPolicyUrl: '<your-privacy-policy-url>'
+        tosUrl: "{{ url('page_tos') }}",
+        privacyPolicyUrl: "{{ url('page_privacy') }}"
     };
     ui.start('#firebaseui-auth-container', uiConfig);
 
