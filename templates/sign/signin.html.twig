@@ -20,12 +20,17 @@
                     fetch("{{ url('verify') }}", { 'headers': { idToken: idToken } })
                         .then( response => { 
                             if( response.status == 200 ) {
-                                location.href = "{{ url('index') }}"; 
+                                return response.json();
                             } else {
                                 location.href = "{{ url('signin') }}";
                             }
-                        }
-                    );
+                        })
+                        .then( json => {
+                            if(json.redirect_url) {
+                                location.href = json.redirect_url;
+                            } else location.href = "{{ url('index') }}"; 
+                        } )
+
                 });
             },
             uiShown: function() {

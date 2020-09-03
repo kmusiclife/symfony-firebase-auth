@@ -10,18 +10,21 @@ class IndexController extends AbstractController
 {
 
     private $session;
+    private $user;
+    private $user_data;
 
     public function __construct(SessionInterface $session)
     {
         $this->session = $session;
+        $this->user = $this->session->get('user');
+        $this->user_data = $this->session->get('user_data');
     }
     /**
      * @Route("/", name="index")
      */
     public function Index()
     {
-        $user = $this->session->get('user');
-        return $this->render('index/index.html.twig', [ 'user' => $user ]);
+        return $this->render('index/index.html.twig', [ 'user' => $this->user ]);
     }    
 
 }

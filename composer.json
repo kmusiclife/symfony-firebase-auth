@@ -6,6 +6,7 @@
         "php": "^7.2.5",
         "ext-iconv": "*",
         "ext-json": "*",
+        "google/cloud-firestore": "^1.14",
         "kreait/firebase-bundle": "^2.1",
         "kreait/firebase-php": "^5.7",
         "sensio/framework-extra-bundle": "^5.5",
