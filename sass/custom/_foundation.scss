@@ -1,0 +1,55 @@
+.text-gray-100{
+  color: $gray-100;
+}
+.text-gray-200{
+  color: $gray-200;
+}
+.text-gray-300{
+  color: $gray-300;
+}
+.text-gray-400{
+  color: $gray-400;
+}
+.text-gray-500{
+  color: $gray-500;
+}
+.text-gray-600{
+  color: $gray-600;
+}
+.bg-gray-100
+{
+  background-color: $gray-100;
+}
+.bg-gray-200
+{
+  background-color: $gray-200;
+}
+.bg-gray-300
+{
+  background-color: $gray-300;
+}
+.bg-gray-400
+{
+  background-color: $gray-400;
+}
+.bg-gray-500
+{
+  background-color: $gray-500;
+}
+.bg-gray-600
+{
+  background-color: $gray-600;
+}
+.mw-sm{
+  max-width: map-get($grid-breakpoints, 'sm');
+}
+.mw-md{
+  max-width: map-get($grid-breakpoints, 'md');
+}
+.mw-lg{
+  max-width: map-get($grid-breakpoints, 'lg');
+}
+.mw-xl{
+  max-width: map-get($grid-breakpoints, 'xl');
+}
+

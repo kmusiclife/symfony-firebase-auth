@@ -16,3 +16,4 @@ credentials.json
 ###< friendsofphp/php-cs-fixer ###
 
 .DS_Store
+.sass-cache
