@@ -75,6 +75,7 @@ class SignController extends AbstractController
         }
         $db_user->setUser(json_encode($fire_user));
         $db_user->setData(json_encode($fire_data));
+        $db_user->setLoginAt(new \DateTime());
         $em->persist($db_user);
         $em->flush();
 

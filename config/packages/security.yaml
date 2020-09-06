@@ -8,9 +8,10 @@ security:
     firewalls:
         main:
             anonymous: true
-            logout: true
             lazy: true
             provider: firebase_provider
+            logout: 
+                path: /signout
 
     access_control:
         - { path: ^/profile, roles: ROLE_USER }
