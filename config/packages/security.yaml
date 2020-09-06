@@ -1,0 +1,16 @@
+security:
+    providers:
+      firebase_provider:
+          entity:
+            class: App\Entity\User
+            property: firebaseUid
+
+    firewalls:
+        main:
+            anonymous: true
+            logout: true
+            lazy: true
+            provider: firebase_provider
+
+    access_control:
+        - { path: ^/profile, roles: ROLE_USER }

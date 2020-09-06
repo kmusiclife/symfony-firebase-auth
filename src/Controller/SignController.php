@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Kreait\Firebase\Auth;
 use Kreait\Firebase\Firestore;
+use App\Entity\User;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class SignController extends AbstractController
 {
@@ -19,7 +21,6 @@ class SignController extends AbstractController
     public function __construct(SessionInterface $session, Auth $auth, Firestore $firestore)
     {
         $this->session = $session;
-        $this->user = $this->session->get('user');
         $this->auth = $auth;
         $this->firestore = $firestore;
     }
@@ -48,22 +49,40 @@ class SignController extends AbstractController
             return $res;
         }
 
+        // Firebase Verified
         $uid = $verifiedIdToken->getClaim('sub');
-        $this->user = $this->auth->getUser($uid);
-        $this->session->set('user', $this->user);
-
+        $fire_user = $this->auth->getUser($uid);
+        
+        // Firestore data restore to local user
         $database = $this->firestore->database();
-        $docRef = $database->collection('users')->document( $this->user->uid );
-        $user_data = $docRef->snapshot()->data();
+        $docRef = $database->collection('users')->document( $fire_user->uid );
+        $fire_data = $docRef->snapshot()->data();
 
-        if(!$user_data) $user_data = array();
-        $docRef->set($user_data);
-        $this->session->set('user_data', $user_data);
+        if(!$fire_data) $fire_data = array();
+        $docRef->set($fire_data);
 
+        // redirect method treating
         $redirect_url = $this->session->get('redirect_url');
-        $json = json_encode(array( 'user' => $this->user, 'redirect_url' => $redirect_url ) );
+        $json = json_encode(array( 'redirect_url' => $redirect_url ) );
         $this->session->set('redirect_url', null);
 
+        // combine firebase and firestore with local user
+        $em = $this->getDoctrine()->getManager();
+        $db_user = $em->getRepository(User::class)->findOneByFirebaseUid( $fire_user->uid );
+        if(!$db_user){
+            $db_user = new User();
+            $db_user->setFirebaseUid( $fire_user->uid );
+        }
+        $db_user->setUser(json_encode($fire_user));
+        $db_user->setData(json_encode($fire_data));
+        $em->persist($db_user);
+        $em->flush();
+
+        // Login 
+        $token = new UsernamePasswordToken($db_user, null, 'main', $db_user->getRoles());
+        $this->get('security.token_storage')->setToken($token);
+
+        // make response
         $res =  new Response($json);
         $res->setStatusCode(200);
         $res->headers->set('Content-Type','application/json');
@@ -82,8 +101,7 @@ class SignController extends AbstractController
      */
     public function signout()
     {
-        $this->session->set('user', null);
-        $this->session->set('user_data', null);
+        $this->get('security.token_storage')->setToken();
         return $this->render('sign/signout.html.twig', []);
     }
 

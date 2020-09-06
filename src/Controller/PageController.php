@@ -9,12 +9,12 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class PageController extends AbstractController
 {
 
-    private $session, $user;
-    
-    public function __construct(SessionInterface $session)
+    /**
+     * @Route("/profile", name="page_profile")
+     */
+    public function PageProfile()
     {
-        $this->session = $session;
-        $this->user = $session->get('user');
+        return $this->render('page/profile.html.twig', []);
     }
     /**
      * @Route("/tos", name="page_tos")
