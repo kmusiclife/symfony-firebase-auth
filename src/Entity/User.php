@@ -126,8 +126,10 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getData(): Object
+    public function getData(): ?Object
     {
+        $decoded = json_decode($this->data);
+        if(!$decoded) return null;
         return json_decode($this->data);
     }
 

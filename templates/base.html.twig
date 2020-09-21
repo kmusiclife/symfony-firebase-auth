@@ -14,6 +14,16 @@
 <link type="text/css" rel="stylesheet" href="/css/main.css" />
 </head>
 <body>
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger my-4">
+        {{ message }}
+    </div>
+{% endfor %}
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success my-4">
+        {{ message }}
+    </div>
+{% endfor %}
 {% block body %}
 {% endblock %}
 {% block javascripts %}

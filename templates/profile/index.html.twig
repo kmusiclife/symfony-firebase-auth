@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+{{ form_start(form, { attr:{'id':'payment-form'} }) }}
+    {{ form_widget(form) }}
+    <input type="submit" class="btn btn-primary btn-block" id="send_button" value="情報を更新する" />
+{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+{% endblock %}

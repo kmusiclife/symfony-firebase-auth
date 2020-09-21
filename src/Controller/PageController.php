@@ -10,13 +10,6 @@ class PageController extends AbstractController
 {
 
     /**
-     * @Route("/profile", name="page_profile")
-     */
-    public function PageProfile()
-    {
-        return $this->render('page/profile.html.twig', []);
-    }
-    /**
      * @Route("/tos", name="page_tos")
      */
     public function PageTos()
