@@ -1,5 +1,7 @@
 # Symfony and Firebase Authentication
 
+Firebase authentication and firestore, a symfony project to build an authentication service with symfony, using the Symfony Security bundle and a local Role integration.
+
 To get started, just clone the this repository and run below commands:
 
     git clone https://github.com/kmusiclife/symfony-firebase-auth.git
