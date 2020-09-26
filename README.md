@@ -2,7 +2,10 @@
 
 Firebase authentication and firestore, a symfony project to build an authentication service with symfony, using the Symfony Security bundle and a local Role integration.
 
-To get started, just clone the this repository and run below commands:
+Firstly, you perobably require to install grpc before install this repository, because this project use firestore for user profile treating.
+https://cloud.google.com/php/grpc
+
+Secoundly, to get started, just clone the this repository and run below commands:
 
     git clone https://github.com/kmusiclife/symfony-firebase-auth.git
     cd symfony-firebase-auth
