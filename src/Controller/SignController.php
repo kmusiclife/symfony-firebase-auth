@@ -30,7 +30,16 @@ class SignController extends AbstractController
     public function verify(Request $request)
     {   
         $idToken = $request->headers->get('idToken');
+        $csrf = $request->headers->get('csrf');
+        $session_csrf = $this->session->get('csrf');
         
+        if($csrf != $session_csrf){
+            $res = new Response( json_encode(array( 'error' => 'CSRF Token Error' )) );
+            $res->setStatusCode(500);
+            $res->headers->set('Content-Type','application/json');
+            return $res;
+        }
+
         // verify
         // https://firebase-php.readthedocs.io/en/latest/authentication.html#verify-a-firebase-id-token
         
@@ -95,7 +104,10 @@ class SignController extends AbstractController
      */
     public function signin()
     {
-        return $this->render('sign/signin.html.twig', []);
+        $csrf_id = sha1( uniqid() );
+        $csrf = $this->get('security.csrf.token_manager')->getToken($csrf_id);
+        $this->session->set('csrf', $csrf);
+        return $this->render('sign/signin.html.twig', ['csrf_id' => $csrf_id]);
     }
     /**
      * @Route("/signout", name="signout")
