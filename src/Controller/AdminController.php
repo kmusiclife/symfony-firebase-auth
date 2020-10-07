@@ -7,7 +7,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
-class UserController extends AbstractController
+/**
+ * @Route("/admin")
+ */
+class AdminController extends AbstractController
 {
     /** @var Auth */
     private $auth;
@@ -16,11 +19,17 @@ class UserController extends AbstractController
     {
         $this->auth = $firebase;
     }
-
+    /**
+     * @Route("/", name="admin_index")
+     */
+    public function index()
+    {
+        return $this->render('admin/index.html.twig', []);
+    }
     /**
      * @Route("/users", name="users")
      */
-    public function index(): JsonResponse
+    public function users(): JsonResponse
     {
         return $this->json([
             'data' => iterator_to_array($this->auth->listUsers()),
